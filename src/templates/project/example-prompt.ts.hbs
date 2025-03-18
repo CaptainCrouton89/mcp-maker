@@ -1,0 +1,53 @@
+/** * Example Prompt for
+{{project_name}}
+* * This is a simple example prompt that demonstrates the basic structure * of
+an MCP server prompt with variable interpolation. */ import Handlebars from
+'handlebars'; /** * Interface for the prompt variables */
+{{#if include_variables}}
+  interface ExamplePromptVariables { userName: string; task: string; context?:
+  string; options?: string[]; }
+{{/if}}
+
+/** * System prompt template - instructions for the AI */ const
+systemPromptTemplate = Handlebars.compile(` You are an assistant for
+{{project_name}}. Your role is to help users with their tasks. Always be
+helpful, concise, and accurate in your responses.
+{{#if include_variables}}
+  You're currently helping a user named
+  {{userName}}
+  with the task:
+  {{task}}.
+  {{#if context}}Additional context: {{context}}{{/if}}
+{{/if}}
+`); /** * User prompt template - the actual query to the AI */ const
+userPromptTemplate = Handlebars.compile(`
+{{#if include_variables}}
+  Please help me with:
+  {{task}}
+  {{#if options}}
+    Here are some options to consider:
+    {{#each options}}
+      -
+      {{this}}
+    {{/each}}
+  {{/if}}
+{{else}}
+  Please help me with my request.
+{{/if}}
+`); /** * Compile the system prompt with the given variables */ export function
+getSystemPrompt({{#if include_variables}}variables: ExamplePromptVariables{{/if}})
+{
+{{#if include_variables}}
+  return systemPromptTemplate(variables).trim();
+{{else}}
+  return systemPromptTemplate({}).trim();
+{{/if}}
+} /** * Compile the user prompt with the given variables */ export function
+getUserPrompt({{#if include_variables}}variables: ExamplePromptVariables{{/if}})
+{
+{{#if include_variables}}
+  return userPromptTemplate(variables).trim();
+{{else}}
+  return userPromptTemplate({}).trim();
+{{/if}}
+} export default { getSystemPrompt, getUserPrompt };
