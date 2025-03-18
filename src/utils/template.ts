@@ -4,6 +4,7 @@
 import chalk from "chalk";
 import Handlebars from "handlebars";
 import path from "path";
+import { fileURLToPath } from "url";
 import { readFile } from "./file.js";
 
 // Register custom helpers
@@ -74,11 +75,13 @@ export const compileTemplateString = (
  * Get the absolute path to a template file
  */
 export const getTemplatePath = (relativePath: string): string => {
-  // Use path.join to ensure proper path construction for the current platform
-  // Using __dirname would be better, but since we're using ES modules,
-  // we need to use import.meta.url or path.dirname(fileURLToPath(import.meta.url))
-  // For simplicity, we'll use a relative path from the current working directory
+  // Get the current module's directory using fileURLToPath
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
 
-  // This should correctly resolve to the templates directory in the project
-  return path.join(process.cwd(), "src", "templates", relativePath);
+  // Navigate up from src/utils to the project root
+  const projectRoot = path.resolve(__dirname, "../../");
+
+  // Join with the templates directory path
+  return path.join(projectRoot, "src", "templates", relativePath);
 };
