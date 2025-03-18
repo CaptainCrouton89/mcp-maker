@@ -1,3 +1,4 @@
 - Updated template path resolution to use fileURLToPath with import.meta.url for reliable absolute path detection regardless of call location.
 - Refactored path resolution in multiple files (docs.ts, create-tool-template.ts, create-resource-template.ts, create-prompt-template.ts, generate-boilerplate.ts) to use fileURLToPath instead of process.cwd() for consistent behavior. 
-- Modified output_dir to be a required parameter in all template creation functions, ensuring users must provide an absolute path. 
+- Modified output_dir to be a required parameter in all template creation functions, ensuring users must provide an absolute path. - Added package.json.hbs template with modern ESM dependencies and scripts
+- Added tsconfig.json.hbs template with ES2022 support and module resolution
