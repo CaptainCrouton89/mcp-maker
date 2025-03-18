@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { promises as fs } from "fs";
-import { join, resolve } from "path";
+import { dirname, join, resolve } from "path";
 import { z } from "zod";
 
 // Documentation utilities
@@ -26,7 +26,7 @@ interface ToolParameter {
 
 // Initialize MCPDocs instance
 const mcpDocs = new MCPDocs();
-const DOCS_PATH = join(process.cwd(), "mcp_docs.json");
+const DOCS_PATH = "/Users/silasrhyneer/AI/data/docs/mcp.json";
 
 /**
  * Set up all tools for the MCP Maker server
@@ -414,6 +414,10 @@ server.prompt(
         // Parse and store the documentation
         mcpDocs.addDocumentation(key, documentationText);
 
+        // Ensure directory exists before saving
+        const dirPath = dirname(DOCS_PATH);
+        await fs.mkdir(dirPath, { recursive: true });
+
         // Save to persistent storage
         await mcpDocs.saveDocs(DOCS_PATH);
 
@@ -421,7 +425,7 @@ server.prompt(
           content: [
             {
               type: "text",
-              text: `Successfully fetched and stored documentation under key '${key}'.\n\nDocument length: ${documentationText.length} characters.`,
+              text: `Successfully fetched and stored documentation under key '${key}'.\n\nDocument length: ${documentationText.length} characters.\nSaved to: ${DOCS_PATH}`,
             },
           ],
         };
