@@ -1,0 +1,1 @@
+- Updated template path resolution to use fileURLToPath with import.meta.url for reliable absolute path detection regardless of call location. 

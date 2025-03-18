@@ -3,6 +3,7 @@
  */
 import chalk from "chalk";
 import path from "path";
+import { fileURLToPath } from "url";
 import { z } from "zod";
 import { BoilerplateOptions } from "../types.js";
 import { ensureDir, writeFile } from "../utils/file.js";
@@ -32,12 +33,16 @@ export async function generateMcpBoilerplate(
     // Validate options
     const validatedOptions = boilerplateSchema.parse(options);
 
+    // Get the current module's directory and project root for default output location
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const projectRoot = path.resolve(__dirname, "../../");
+
     // Set output directory - if output_dir is provided, use it directly
-    // Otherwise, create a directory based on project_name in the current working directory
-    // process.cwd() returns the absolute path of the current working directory
+    // Otherwise, create a directory based on project_name in the project root
     const outputDir =
       validatedOptions.output_dir ||
-      path.join(process.cwd(), validatedOptions.project_name);
+      path.join(projectRoot, validatedOptions.project_name);
 
     console.log(chalk.blue(`Generating MCP server project at: ${outputDir}`));
 

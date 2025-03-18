@@ -3,6 +3,7 @@
  */
 import chalk from "chalk";
 import path from "path";
+import { fileURLToPath } from "url";
 import { z } from "zod";
 import { PromptTemplateOptions } from "../types.js";
 import { ensureDir, pathExists, writeFile } from "../utils/file.js";
@@ -36,9 +37,18 @@ export async function createPromptTemplate(
     // Validate options
     const validatedOptions = promptTemplateSchema.parse(options);
 
-    // Determine the base directory (use output_dir if provided, otherwise use current directory)
-    // process.cwd() returns the absolute path of the current working directory
-    const baseDir = validatedOptions.output_dir || process.cwd();
+    // Determine the base directory
+    let baseDir;
+    if (validatedOptions.output_dir) {
+      // Use provided output directory if available
+      baseDir = validatedOptions.output_dir;
+    } else {
+      // Get the current module's directory and resolve project root
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      const projectRoot = path.resolve(__dirname, "../../");
+      baseDir = projectRoot;
+    }
 
     // Ensure the prompts directory exists
     const promptsDir = path.join(baseDir, "src", "prompts");

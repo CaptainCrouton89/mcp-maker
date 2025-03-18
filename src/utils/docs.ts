@@ -3,10 +3,16 @@
  */
 import chalk from "chalk";
 import path from "path";
+import { fileURLToPath } from "url";
 import { ensureDir, pathExists, readFile, writeFile } from "./file.js";
 
+// Get the current module's directory and project root
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, "../../");
+
 // Documentation storage directory
-const DOCS_DIR = path.resolve(process.cwd(), ".docs");
+const DOCS_DIR = path.resolve(projectRoot, ".docs");
 
 /**
  * Initialize the documentation storage

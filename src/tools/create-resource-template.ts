@@ -3,6 +3,7 @@
  */
 import chalk from "chalk";
 import path from "path";
+import { fileURLToPath } from "url";
 import { z } from "zod";
 import { ResourceTemplateOptions } from "../types.js";
 import { ensureDir, pathExists, writeFile } from "../utils/file.js";
@@ -37,8 +38,18 @@ export async function createResourceTemplate(
     // Validate options
     const validatedOptions = resourceTemplateSchema.parse(options);
 
-    // Determine the base directory (use output_dir if provided, otherwise use current directory)
-    const baseDir = validatedOptions.output_dir || process.cwd();
+    // Determine the base directory
+    let baseDir;
+    if (validatedOptions.output_dir) {
+      // Use provided output directory if available
+      baseDir = validatedOptions.output_dir;
+    } else {
+      // Get the current module's directory and resolve project root
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      const projectRoot = path.resolve(__dirname, "../../");
+      baseDir = projectRoot;
+    }
 
     // Ensure the resources directory exists
     const resourcesDir = path.join(baseDir, "src", "resources");
