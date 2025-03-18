@@ -389,30 +389,20 @@ server.prompt(
     }
   );
 
-  // Tool: fetch_mcp_docs
+  // Tool: save_mcp_docs
   server.tool(
-    "fetch_mcp_docs",
-    "Fetches MCP documentation from a URL and stores it for future reference",
+    "save_mcp_docs",
+    "Saves MCP documentation text directly and stores it for future reference",
     {
-      url: z.string().describe("URL to fetch documentation from"),
+      doc_text: z.string().describe("Documentation text to save"),
       key: z.string().describe("Unique identifier for this documentation"),
     },
     async (params, extra) => {
-      const { url, key } = params;
+      const { doc_text, key } = params;
 
       try {
-        // Fetch the documentation
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch documentation: ${response.status} ${response.statusText}`
-          );
-        }
-
-        const documentationText = await response.text();
-
         // Parse and store the documentation
-        mcpDocs.addDocumentation(key, documentationText);
+        mcpDocs.addDocumentation(key, doc_text);
 
         // Ensure directory exists before saving
         const dirPath = dirname(DOCS_PATH);
@@ -425,7 +415,7 @@ server.prompt(
           content: [
             {
               type: "text",
-              text: `Successfully fetched and stored documentation under key '${key}'.\n\nDocument length: ${documentationText.length} characters.\nSaved to: ${DOCS_PATH}`,
+              text: `Successfully stored documentation under key '${key}'.\n\nDocument length: ${doc_text.length} characters.\nSaved to: ${DOCS_PATH}`,
             },
           ],
         };
@@ -434,7 +424,7 @@ server.prompt(
           content: [
             {
               type: "text",
-              text: `Error fetching documentation: ${
+              text: `Error saving documentation: ${
                 error instanceof Error ? error.message : String(error)
               }`,
             },

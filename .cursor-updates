@@ -13,3 +13,7 @@
 - Added new tools to fetch documentation from URLs and use it as context for MCP server generation
 - Updated index.ts to use StdioServerTransport and added dotenv for environment variables
 - Added .gitignore to exclude documentation JSON and build files
+
+## 2024-05-29
+
+- Replaced `fetch_mcp_docs` tool with `save_mcp_docs` tool that accepts documentation text directly instead of fetching from a URL
