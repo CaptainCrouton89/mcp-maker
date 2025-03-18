@@ -38,7 +38,7 @@ server.tool(
   {
     project_name: z.string().min(1),
     description: z.string().min(1),
-    output_dir: z.string().optional(),
+    output_dir: z.string(),
     include_prompts: z.boolean().optional(),
     include_resources: z.boolean().optional(),
   },
@@ -65,7 +65,7 @@ server.tool(
         description: z.string().min(1),
       })
     ),
-    output_dir: z.string().optional(),
+    output_dir: z.string(),
   },
   async (params: ToolTemplateOptions) => {
     const result = await createToolTemplate(params);
@@ -83,7 +83,7 @@ server.tool(
     resource_name: z.string().min(1),
     resource_uri_pattern: z.string().min(1),
     description: z.string().min(1),
-    output_dir: z.string().optional(),
+    output_dir: z.string(),
   },
   async (params: ResourceTemplateOptions) => {
     const result = await createResourceTemplate(params);
@@ -101,7 +101,7 @@ server.tool(
     prompt_name: z.string().min(1),
     description: z.string().min(1),
     include_variables: z.boolean().optional(),
-    output_dir: z.string().optional(),
+    output_dir: z.string(),
   },
   async (params: PromptTemplateOptions) => {
     const result = await createPromptTemplate(params);
@@ -189,7 +189,7 @@ server.tool(
     project_name: z.string().min(1),
     description: z.string().min(1),
     doc_context: z.string().min(1),
-    output_dir: z.string().optional(),
+    output_dir: z.string(),
   },
   async (params: DocEnrichedTemplateOptions) => {
     const result = await generateDocEnrichedTemplate(params);

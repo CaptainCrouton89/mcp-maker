@@ -10,9 +10,8 @@ export interface BoilerplateOptions {
   description: string;
   /**
    * Absolute path to the directory where the project should be generated
-   * If not provided, the current working directory will be used
    */
-  output_dir?: string;
+  output_dir: string;
   include_prompts?: boolean;
   include_resources?: boolean;
 }
@@ -26,9 +25,8 @@ export interface ToolTemplateOptions {
   parameters: ToolParameter[];
   /**
    * Absolute path to the directory where the tool should be generated
-   * If not provided, the current working directory will be used
    */
-  output_dir?: string;
+  output_dir: string;
 }
 
 /**
@@ -50,9 +48,8 @@ export interface ResourceTemplateOptions {
   description: string;
   /**
    * Absolute path to the directory where the resource should be generated
-   * If not provided, the current working directory will be used
    */
-  output_dir?: string;
+  output_dir: string;
 }
 
 /**
@@ -64,9 +61,8 @@ export interface PromptTemplateOptions {
   include_variables?: boolean;
   /**
    * Absolute path to the directory where the prompt should be generated
-   * If not provided, the current working directory will be used
    */
-  output_dir?: string;
+  output_dir: string;
 }
 
 /**
@@ -101,7 +97,6 @@ export interface DocEnrichedTemplateOptions {
   doc_context: string;
   /**
    * Absolute path to the directory where the project should be generated
-   * If not provided, the current working directory will be used
    */
-  output_dir?: string;
+  output_dir: string;
 }

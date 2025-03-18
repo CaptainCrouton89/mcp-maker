@@ -12,7 +12,7 @@ export const docEnrichedTemplateSchema = z.object({
   project_name: z.string().min(1),
   description: z.string().min(1),
   doc_context: z.string().min(1),
-  output_dir: z.string().optional(),
+  output_dir: z.string(),
 });
 
 /**

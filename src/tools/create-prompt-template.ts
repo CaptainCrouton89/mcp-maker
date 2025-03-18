@@ -3,7 +3,6 @@
  */
 import chalk from "chalk";
 import path from "path";
-import { fileURLToPath } from "url";
 import { z } from "zod";
 import { PromptTemplateOptions } from "../types.js";
 import { ensureDir, pathExists, writeFile } from "../utils/file.js";
@@ -19,12 +18,9 @@ export const promptTemplateSchema = z.object({
     }),
   description: z.string().min(1),
   include_variables: z.boolean().optional().default(false),
-  output_dir: z
-    .string()
-    .optional()
-    .refine((val) => !val || path.isAbsolute(val), {
-      message: "output_dir must be an absolute path",
-    }),
+  output_dir: z.string().refine((val) => path.isAbsolute(val), {
+    message: "output_dir must be an absolute path",
+  }),
 });
 
 /**
@@ -37,18 +33,8 @@ export async function createPromptTemplate(
     // Validate options
     const validatedOptions = promptTemplateSchema.parse(options);
 
-    // Determine the base directory
-    let baseDir;
-    if (validatedOptions.output_dir) {
-      // Use provided output directory if available
-      baseDir = validatedOptions.output_dir;
-    } else {
-      // Get the current module's directory and resolve project root
-      const __filename = fileURLToPath(import.meta.url);
-      const __dirname = path.dirname(__filename);
-      const projectRoot = path.resolve(__dirname, "../../");
-      baseDir = projectRoot;
-    }
+    // Use the provided output directory (now required and absolute)
+    const baseDir = validatedOptions.output_dir;
 
     // Ensure the prompts directory exists
     const promptsDir = path.join(baseDir, "src", "prompts");

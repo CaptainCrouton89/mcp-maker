@@ -3,7 +3,6 @@
  */
 import chalk from "chalk";
 import path from "path";
-import { fileURLToPath } from "url";
 import { z } from "zod";
 import { BoilerplateOptions } from "../types.js";
 import { ensureDir, writeFile } from "../utils/file.js";
@@ -13,12 +12,9 @@ import { compileTemplate, getTemplatePath } from "../utils/template.js";
 export const boilerplateSchema = z.object({
   project_name: z.string().min(1),
   description: z.string().min(1),
-  output_dir: z
-    .string()
-    .optional()
-    .refine((val) => !val || path.isAbsolute(val), {
-      message: "output_dir must be an absolute path",
-    }),
+  output_dir: z.string().refine((val) => path.isAbsolute(val), {
+    message: "output_dir must be an absolute path",
+  }),
   include_prompts: z.boolean().optional().default(false),
   include_resources: z.boolean().optional().default(false),
 });
@@ -33,16 +29,8 @@ export async function generateMcpBoilerplate(
     // Validate options
     const validatedOptions = boilerplateSchema.parse(options);
 
-    // Get the current module's directory and project root for default output location
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    const projectRoot = path.resolve(__dirname, "../../");
-
-    // Set output directory - if output_dir is provided, use it directly
-    // Otherwise, create a directory based on project_name in the project root
-    const outputDir =
-      validatedOptions.output_dir ||
-      path.join(projectRoot, validatedOptions.project_name);
+    // Get the output directory (now required and absolute)
+    const outputDir = validatedOptions.output_dir;
 
     console.log(chalk.blue(`Generating MCP server project at: ${outputDir}`));
 
