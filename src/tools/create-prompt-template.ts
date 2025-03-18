@@ -18,6 +18,12 @@ export const promptTemplateSchema = z.object({
     }),
   description: z.string().min(1),
   include_variables: z.boolean().optional().default(false),
+  output_dir: z
+    .string()
+    .optional()
+    .refine((val) => !val || path.isAbsolute(val), {
+      message: "output_dir must be an absolute path",
+    }),
 });
 
 /**
@@ -30,8 +36,12 @@ export async function createPromptTemplate(
     // Validate options
     const validatedOptions = promptTemplateSchema.parse(options);
 
+    // Determine the base directory (use output_dir if provided, otherwise use current directory)
+    // process.cwd() returns the absolute path of the current working directory
+    const baseDir = validatedOptions.output_dir || process.cwd();
+
     // Ensure the prompts directory exists
-    const promptsDir = path.join(process.cwd(), "src", "prompts");
+    const promptsDir = path.join(baseDir, "src", "prompts");
     await ensureDir(promptsDir);
 
     // Generate the file path for the new prompt

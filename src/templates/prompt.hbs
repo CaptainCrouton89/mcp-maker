@@ -1,0 +1,30 @@
+/** *
+{{prompt_pascal_case}}
+Prompt *
+{{description}}
+*/ import { McpServer, PromptTemplate } from
+"@modelcontextprotocol/sdk/server/mcp.js"; /** * The main template content */
+const templateContent = ` #
+{{prompt_pascal_case}}
+
+{{description}}
+
+## Instructions
+
+{{#if include_variables}}
+  You have access to the following variables: - \${variable1}: Description of
+  variable1 - \${variable2}: Description of variable2
+{{/if}}
+
+Provide a detailed and thoughtful response based on the information provided. `;
+/** * Register the
+{{prompt_name}}
+prompt */ export function register{{prompt_pascal_case}}Prompt(server:
+McpServer): void { server.prompt( new PromptTemplate({ name: "{{prompt_name}}",
+description: "{{description}}", template: templateContent,
+{{#if include_variables}}
+  variables: { variable1: { description: "Description of variable1", required:
+  true, }, variable2: { description: "Description of variable2", required:
+  false, }, },
+{{/if}}
+}) ); }

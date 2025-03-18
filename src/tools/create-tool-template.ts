@@ -25,6 +25,12 @@ export const toolTemplateSchema = z.object({
       description: z.string().min(1),
     })
   ),
+  output_dir: z
+    .string()
+    .optional()
+    .refine((val) => !val || path.isAbsolute(val), {
+      message: "output_dir must be an absolute path",
+    }),
 });
 
 /**
@@ -37,8 +43,12 @@ export async function createToolTemplate(
     // Validate options
     const validatedOptions = toolTemplateSchema.parse(options);
 
+    // Determine the base directory (use output_dir if provided, otherwise use current directory)
+    // process.cwd() returns the absolute path of the current working directory
+    const baseDir = validatedOptions.output_dir || process.cwd();
+
     // Ensure the tools directory exists
-    const toolsDir = path.join(process.cwd(), "src", "tools");
+    const toolsDir = path.join(baseDir, "src", "tools");
     await ensureDir(toolsDir);
 
     // Generate the file path for the new tool

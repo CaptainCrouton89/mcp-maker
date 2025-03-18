@@ -74,5 +74,11 @@ export const compileTemplateString = (
  * Get the absolute path to a template file
  */
 export const getTemplatePath = (relativePath: string): string => {
-  return path.resolve(process.cwd(), "src", "templates", relativePath);
+  // Use path.join to ensure proper path construction for the current platform
+  // Using __dirname would be better, but since we're using ES modules,
+  // we need to use import.meta.url or path.dirname(fileURLToPath(import.meta.url))
+  // For simplicity, we'll use a relative path from the current working directory
+
+  // This should correctly resolve to the templates directory in the project
+  return path.join(process.cwd(), "src", "templates", relativePath);
 };

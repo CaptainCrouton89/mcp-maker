@@ -1,0 +1,31 @@
+/**
+ * {{resource_pascal_case}} Resource
+ * {{description}}
+ */
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
+
+/**
+ * {{description}}
+ */
+export function register{{resource_pascal_case}}Resource(server: McpServer): void {
+  server.resource(
+    new ResourceTemplate({
+      name: "{{resource_name}}",
+      uriPattern: {{{resource_uri_pattern}}},
+      description: "{{description}}",
+      schema: {},
+    })
+  );
+}
+
+/**
+ * Fetch {{resource_name}} data
+ */
+export async function fetch{{resource_pascal_case}}(id: string): Promise<any> {
+  // TODO: Implement resource data fetching
+  return {
+    id,
+    name: `{{resource_pascal_case}} ${id}`,
+    // Add more fields as needed
+  };
+}

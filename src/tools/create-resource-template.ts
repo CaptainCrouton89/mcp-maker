@@ -19,6 +19,12 @@ export const resourceTemplateSchema = z.object({
     }),
   resource_uri_pattern: z.string().min(1),
   description: z.string().min(1),
+  output_dir: z
+    .string()
+    .optional()
+    .refine((val) => !val || path.isAbsolute(val), {
+      message: "output_dir must be an absolute path",
+    }),
 });
 
 /**
@@ -31,8 +37,11 @@ export async function createResourceTemplate(
     // Validate options
     const validatedOptions = resourceTemplateSchema.parse(options);
 
+    // Determine the base directory (use output_dir if provided, otherwise use current directory)
+    const baseDir = validatedOptions.output_dir || process.cwd();
+
     // Ensure the resources directory exists
-    const resourcesDir = path.join(process.cwd(), "src", "resources");
+    const resourcesDir = path.join(baseDir, "src", "resources");
     await ensureDir(resourcesDir);
 
     // Generate the file path for the new resource

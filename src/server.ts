@@ -65,6 +65,7 @@ server.tool(
         description: z.string().min(1),
       })
     ),
+    output_dir: z.string().optional(),
   },
   async (params: ToolTemplateOptions) => {
     const result = await createToolTemplate(params);
@@ -82,6 +83,7 @@ server.tool(
     resource_name: z.string().min(1),
     resource_uri_pattern: z.string().min(1),
     description: z.string().min(1),
+    output_dir: z.string().optional(),
   },
   async (params: ResourceTemplateOptions) => {
     const result = await createResourceTemplate(params);
@@ -99,6 +101,7 @@ server.tool(
     prompt_name: z.string().min(1),
     description: z.string().min(1),
     include_variables: z.boolean().optional(),
+    output_dir: z.string().optional(),
   },
   async (params: PromptTemplateOptions) => {
     const result = await createPromptTemplate(params);

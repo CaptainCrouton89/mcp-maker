@@ -1,0 +1,39 @@
+/**
+ * {{tool_pascal_case}} Tool
+ * {{description}}
+ */
+import { z } from "zod";
+import { {{tool_pascal_case}}Options } from "../types.js";
+
+// Schema for validating input
+export const {{tool_camel_case}}Schema = z.object({
+  {{#each parameters}}
+  {{name}}: {{#if required}}z.{{type}}(){{else}}z.{{type}}().optional(){{/if}}{{#unless @last}},{{/unless}}
+  {{/each}}
+});
+
+/**
+ * {{description}}
+ */
+export async function {{tool_camel_case}}(
+  options: {{tool_pascal_case}}Options
+): Promise<{ success: boolean; message: string; data?: any }> {
+  try {
+    // Validate options
+    const validatedOptions = {{tool_camel_case}}Schema.parse(options);
+
+    // TODO: Implement the tool logic
+    
+    return {
+      success: true,
+      message: "{{tool_pascal_case}} tool executed successfully",
+      data: validatedOptions, // Return the validated options for now
+    };
+  } catch (error: any) {
+    console.error(`Error in {{tool_camel_case}}:`, error);
+    return {
+      success: false,
+      message: `Error in {{tool_camel_case}}: ${error.message || String(error)}`,
+    };
+  }
+}

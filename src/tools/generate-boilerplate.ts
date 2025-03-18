@@ -12,7 +12,12 @@ import { compileTemplate, getTemplatePath } from "../utils/template.js";
 export const boilerplateSchema = z.object({
   project_name: z.string().min(1),
   description: z.string().min(1),
-  output_dir: z.string().optional(),
+  output_dir: z
+    .string()
+    .optional()
+    .refine((val) => !val || path.isAbsolute(val), {
+      message: "output_dir must be an absolute path",
+    }),
   include_prompts: z.boolean().optional().default(false),
   include_resources: z.boolean().optional().default(false),
 });
@@ -27,7 +32,9 @@ export async function generateMcpBoilerplate(
     // Validate options
     const validatedOptions = boilerplateSchema.parse(options);
 
-    // Set output directory
+    // Set output directory - if output_dir is provided, use it directly
+    // Otherwise, create a directory based on project_name in the current working directory
+    // process.cwd() returns the absolute path of the current working directory
     const outputDir =
       validatedOptions.output_dir ||
       path.join(process.cwd(), validatedOptions.project_name);
