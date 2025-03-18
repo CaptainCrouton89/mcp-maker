@@ -1,23 +1,46 @@
-# Logs
-logs
-*.log
-npm-debug.log*
+# Dependencies
+node_modules
+.pnp
+.pnp.js
 
-# Dependency directories
-node_modules/
-
-# Build output
-build/
-
-# TypeScript cache
-*.tsbuildinfo
+# Build files
+dist
+build
+lib
 
 # Environment variables
 .env
 .env.local
-.env.development
-.env.test
-.env.production
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Documentation
+mcp_docs.json
+
+# Generated MCP servers
+generated/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# VS Code settings
+.vscode/
+
+# Dependency directories
+node_modules/
+
+# TypeScript cache
+*.tsbuildinfo
 
 # Editor directories and files
 .vscode/*
