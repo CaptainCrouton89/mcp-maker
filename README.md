@@ -1,5 +1,7 @@
 # MCP Maker
 
+[![smithery badge](https://smithery.ai/badge/@CaptainCrouton89/mcp-maker)](https://smithery.ai/server/@CaptainCrouton89/mcp-maker)
+
 A Model Context Protocol server for creating new MCPs.
 
 ## Overview
@@ -13,6 +15,14 @@ MCP Maker is a specialized MCP server designed to help you create new Model Cont
 - Configuration guidance for Claude Desktop integration
 
 ## Installation
+
+### Installing via Smithery
+
+To install MCP Maker for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@CaptainCrouton89/mcp-maker):
+
+```bash
+npx -y @smithery/cli install @CaptainCrouton89/mcp-maker --client claude
+```
 
 ### Prerequisites
 
