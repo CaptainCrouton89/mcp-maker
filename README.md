@@ -2,6 +2,10 @@
 
 A Model Context Protocol server for creating new MCPs.
 
+<a href="https://glama.ai/mcp/servers/@CaptainCrouton89/mcp-maker">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@CaptainCrouton89/mcp-maker/badge" alt="Maker MCP server" />
+</a>
+
 ## Overview
 
 MCP Maker is a specialized MCP server designed to help you create new Model Context Protocol servers. It provides tools and templates for scaffolding MCP projects with various capabilities including:
